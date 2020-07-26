@@ -15,6 +15,7 @@ class Persona(models.Model):
 class Brigada(models.Model):
     nombre = models.CharField(max_length=255)
     jefe = models.ForeignKey(Persona, on_delete=models.CASCADE)
+    integrantes= models.ManyToManyField(Persona,verbose_name='lista de integrantes',related_name='integrantes')
     def __str__(self):
         return self.nombre
 
@@ -28,12 +29,15 @@ class Actividad(models.Model):
     descripcion = models.TextField(blank=True)
     def __str__(self):
         return self.nombre
-        
-class Zona(models.Model):
-    nombre = models.CharField(max_length=255)
 
 class Objeto(models.Model):
     nombre = models.CharField(max_length=255)
+    def __str__(self):
+        return self.nombre
+
+class Zona(models.Model):
+    nombre = models.CharField(max_length=255)
+    objetos= models.ManyToManyField(Objeto, verbose_name="lista de objetos")
     def __str__(self):
         return self.nombre
  

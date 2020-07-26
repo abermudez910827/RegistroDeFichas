@@ -1,9 +1,10 @@
-from django.shortcuts import render,redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate,login as v_login,logout as v_logout
-from .forms import PersonaForm,EspecialidadForm,ActividadForm,ObraForm
+from .forms import PersonaForm,EspecialidadForm,ActividadForm,ObraForm,BrigadaForm,ObjetoForm
 from .models import Persona,Convenio,Especialidad,Brigada,QSE,Actividad,Zona,Objeto,Obra,MesEnCurso
 
 def index(request):
@@ -27,7 +28,10 @@ def signupuser(request):
         else:
             #Contrasena no coincide
             return render(request, 'registro_app/singupuser.html', {'form': UserCreationForm,'error':'Las contraseñas no coinciden','active_signup':True})
-            
+
+def denegado(request):
+        return render(request, 'registro_app/errors/505.html')
+    
 def logout(request):
     if request.method == 'POST':
         v_logout(request)
@@ -50,6 +54,7 @@ def persona_index(request):
         personas= Persona.objects.all()
         return render(request, 'registro_app/persona/index.html',{'personas':personas,'active_datos':True})
    
+@login_required(login_url='/')
 def persona_new(request):
     if(request.method=='GET'):
         return render(request, 'registro_app/persona/create.html', {'form': PersonaForm(),'active_datos':True})
@@ -59,7 +64,7 @@ def persona_new(request):
             persona.save()
             return redirect('personas')
         return render(request, 'registro_app/persona/create.html', {'form': persona,'active_datos':True})
-
+@login_required(login_url='/')
 def persona_edit(request, persona_id):
     persona = get_object_or_404(Persona, pk=persona_id)
     
@@ -72,11 +77,11 @@ def persona_edit(request, persona_id):
             form.save()
             return redirect('persona_view',persona.id)
         return render(request, 'registro_app/persona/create.html', {'form': form,'active_datos':True})
-  
+
 def persona_view(request,persona_id):
         persona= get_object_or_404(Persona,pk=persona_id)
         return render(request, 'registro_app/persona/view.html',{'persona':persona,'active_datos':True})
- 
+@login_required(login_url='/')
 def persona_delete(request,persona_id):
         persona = get_object_or_404(Persona, pk=persona_id)
         if (request.method == 'POST'):
@@ -88,7 +93,7 @@ def persona_delete(request,persona_id):
 def especialidad_index(request):
         especialidades= Especialidad.objects.all()
         return render(request, 'registro_app/especialidad/index.html',{'especialidades':especialidades,'active_datos':True})
-   
+@login_required(login_url='/')
 def especialidad_new(request):
     if(request.method=='GET'):
         return render(request, 'registro_app/especialidad/create.html', {'form': EspecialidadForm(),'active_datos':True})
@@ -98,7 +103,7 @@ def especialidad_new(request):
             especialidad.save()
             return redirect('especialidades')
         return render(request, 'registro_app/especialidad/create.html', {'form': especialidad,'active_datos':True})
-
+@login_required(login_url='/')
 def especialidad_edit(request, especialidad_id):
     especialidad = get_object_or_404(Especialidad, pk=especialidad_id)
     
@@ -115,7 +120,7 @@ def especialidad_edit(request, especialidad_id):
 def especialidad_view(request,especialidad_id):
         especialidad= get_object_or_404(Especialidad,pk=especialidad_id)
         return render(request, 'registro_app/especialidad/view.html',{'especialidad':especialidad,'active_datos':True})
- 
+@login_required(login_url='/')
 def especialidad_delete(request,especialidad_id):
         especialidad = get_object_or_404(Especialidad, pk=especialidad_id)
         if (request.method == 'POST'):
@@ -127,7 +132,7 @@ def especialidad_delete(request,especialidad_id):
 def actividad_index(request):
         actividades= Actividad.objects.all()
         return render(request, 'registro_app/actividad/index.html',{'actividades':actividades,'active_datos':True})
-   
+@login_required(login_url='/')
 def actividad_new(request):
     if(request.method=='GET'):
         return render(request, 'registro_app/actividad/create.html', {'form': ActividadForm(),'active_datos':True})
@@ -137,7 +142,7 @@ def actividad_new(request):
             actividad.save()
             return redirect('actividades')
         return render(request, 'registro_app/actividad/create.html', {'form': actividad,'active_datos':True})
-
+@login_required(login_url='/')
 def actividad_edit(request, actividad_id):
     actividad = get_object_or_404(Actividad, pk=actividad_id)
     
@@ -154,7 +159,7 @@ def actividad_edit(request, actividad_id):
 def actividad_view(request,actividad_id):
         actividad= get_object_or_404(Actividad,pk=actividad_id)
         return render(request, 'registro_app/actividad/view.html',{'actividad':actividad,'active_datos':True})
- 
+@login_required(login_url='/')
 def actividad_delete(request,actividad_id):
         actividad = get_object_or_404(Actividad, pk=actividad_id)
         if (request.method == 'POST'):
@@ -165,7 +170,7 @@ def actividad_delete(request,actividad_id):
 def obra_index(request):
         obras= Obra.objects.all()
         return render(request, 'registro_app/obra/index.html',{'obras':obras,'active_obras':True})
-   
+@login_required(login_url='/')
 def obra_new(request):
     if(request.method=='GET'):
         return render(request, 'registro_app/obra/create.html', {'form': ObraForm(),'active_obras':True})
@@ -175,7 +180,7 @@ def obra_new(request):
             obra.save()
             return redirect('obras')
         return render(request, 'registro_app/obra/create.html', {'form': obra,'active_obras':True})
-
+@login_required(login_url='/')
 def obra_edit(request, obra_id):
     obra = get_object_or_404(Obra, pk=obra_id)
     
@@ -192,12 +197,55 @@ def obra_edit(request, obra_id):
 def obra_view(request,obra_id):
         obra= get_object_or_404(Obra,pk=obra_id)
         return render(request, 'registro_app/obra/view.html',{'obra':obra,'active_obras':True})
- 
+@login_required(login_url='/')
 def obra_delete(request,obra_id):
         obra = get_object_or_404(Obra, pk=obra_id)
         if (request.method == 'POST'):
             obra.delete()
         return redirect('obras')
  
+#Objetos
+def objeto_index(request):
+        objetos= Objeto.objects.all()
+        return render(request, 'registro_app/objeto/index.html', {'objetos': objetos, 'active_objetos': True})
+        
+@login_required(login_url='/')
+def objeto_new(request):
+    if request.user.is_authenticated:
+        if(request.method=='GET'):
+            return render(request, 'registro_app/objeto/create.html', {'form': ObjetoForm(),'active_objetos':True})
+        else:           
+            objeto = ObjetoForm(request.POST)
+            if objeto.is_valid():
+                objeto.save()
+                return redirect('objetos')
+            return render(request, 'registro_app/objeto/create.html', {'form': objeto, 'active_objetos': True})
+    else:
+        return redirect('denegado')
 
+@login_required(login_url='/')
+def objeto_edit(request, objeto_id):
+        objeto = get_object_or_404(Objeto, pk=objeto_id)
+        
+        if(request.method=='GET'):
+            form=ObjetoForm(instance=objeto)
+            return render(request, 'registro_app/objeto/create.html',{'form': form,'active_objetos':True})
+        else:        
+            form = ObjetoForm(request.POST, instance=objeto)
+            if form.is_valid():
+                form.save()
+                return redirect('objeto_view',objeto.id)
+            return render(request, 'registro_app/objeto/create.html', {'form': form,'active_objetos':True})
+    
+def objeto_view(request,objeto_id):
+        objeto= get_object_or_404(Objeto,pk=objeto_id)
+        return render(request, 'registro_app/objeto/view.html', {'objeto': objeto, 'active_objetos': True})
+        
+@login_required(login_url='/')
+def objeto_delete(request,objeto_id):
+        objeto = get_object_or_404(Objeto, pk=objeto_id)
+        if (request.method == 'POST'):
+            objeto.delete()
+        return redirect('objetos')
+   
  

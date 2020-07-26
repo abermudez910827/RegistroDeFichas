@@ -47,7 +47,6 @@
                   >Home</a
                 >
               </li>
-              {% if user.is_authenticated %}
               <li class="nav-item">
                 <a
                   class="nav-link {% if active_obras %} active{% endif %}"
@@ -84,14 +83,15 @@
                   >
                   <a class="dropdown-item" href="{% url 'index' %}">Brigadas</a>
                   <a class="dropdown-item" href="{% url 'index' %}">Zonas</a>
-                  <a class="dropdown-item" href="{% url 'index' %}">Objetos</a>
+                  <a class="dropdown-item" href="{% url 'objetos' %}"
+                    >Objetos</a
+                  >
                   <a class="dropdown-item" href="{% url 'actividades' %}"
                     >Actividades</a
                   >
                   <a class="dropdown-item" href="{% url 'index' %}">Zonas</a>
                 </div>
               </li>
-              {% endif %}
             </ul>
 
             <ul class="navbar-nav pl-md-5 ml-auto">

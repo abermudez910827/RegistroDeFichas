@@ -23,6 +23,7 @@ urlpatterns = [
     #Auth
     # path('signup/', views.signupuser, name = 'registro'),
     path('logout/', views.logout, name = 'logout'),
+    path('505/', views.denegado, name = 'denegado'),
 
     path('', views.login, name = 'login'),
     
@@ -52,6 +53,12 @@ urlpatterns = [
     path('obras/<int:obra_id>', views.obra_view, name = 'obra_view'),
     path('obras/edit/<int:obra_id>', views.obra_edit, name = 'obra_edit'),
     path('obras/delete/<int:obra_id>', views.obra_delete, name = 'obra_delete'),
+    #Objeto
+    path('objetos/', views.objeto_index, name = 'objetos'),
+    path('objetos/nueva', views.objeto_new, name = 'objeto_new'),
+    path('objetos/<int:objeto_id>', views.objeto_view, name = 'objeto_view'),
+    path('objetos/edit/<int:objeto_id>', views.objeto_edit, name = 'objeto_edit'),
+    path('objetos/delete/<int:objeto_id>', views.objeto_delete, name = 'objeto_delete'),
     
 
 ]

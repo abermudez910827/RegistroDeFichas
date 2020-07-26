@@ -21,6 +21,11 @@ class ObraForm(ModelForm):
         model = Obra
         fields = ['nombre','descripcion']
 
+class BrigadaForm(ModelForm):
+    class Meta:
+        model = Brigada
+        fields = ['nombre','jefe']
+
 class ZonaForm(ModelForm):
     class Meta:
         model = Zona
