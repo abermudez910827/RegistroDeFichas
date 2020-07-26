@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate,login as v_login,logout as v_logout
-from .forms import PersonaForm,EspecialidadForm
+from .forms import PersonaForm,EspecialidadForm,ActividadForm,ObraForm
 from .models import Persona,Convenio,Especialidad,Brigada,QSE,Actividad,Zona,Objeto,Obra,MesEnCurso
 
 def index(request):
@@ -83,6 +83,8 @@ def persona_delete(request,persona_id):
             persona.delete()
         return redirect('personas')
  
+ #Especialidades
+
 def especialidad_index(request):
         especialidades= Especialidad.objects.all()
         return render(request, 'registro_app/especialidad/index.html',{'especialidades':especialidades,'active_datos':True})
@@ -120,5 +122,82 @@ def especialidad_delete(request,especialidad_id):
             especialidad.delete()
         return redirect('especialidades')
 
+#actividades
+
+def actividad_index(request):
+        actividades= Actividad.objects.all()
+        return render(request, 'registro_app/actividad/index.html',{'actividades':actividades,'active_datos':True})
+   
+def actividad_new(request):
+    if(request.method=='GET'):
+        return render(request, 'registro_app/actividad/create.html', {'form': ActividadForm(),'active_datos':True})
+    else:           
+        actividad = ActividadForm(request.POST)
+        if actividad.is_valid():
+            actividad.save()
+            return redirect('actividades')
+        return render(request, 'registro_app/actividad/create.html', {'form': actividad,'active_datos':True})
+
+def actividad_edit(request, actividad_id):
+    actividad = get_object_or_404(Actividad, pk=actividad_id)
+    
+    if(request.method=='GET'):
+        form=ActividadForm(instance=actividad)
+        return render(request, 'registro_app/actividad/create.html',{'form': form,'active_datos':True})
+    else:        
+        form = ActividadForm(request.POST, instance=actividad)
+        if form.is_valid():
+            form.save()
+            return redirect('actividad_view',actividad.id)
+        return render(request, 'registro_app/actividad/create.html', {'form': form,'active_datos':True})
+  
+def actividad_view(request,actividad_id):
+        actividad= get_object_or_404(Actividad,pk=actividad_id)
+        return render(request, 'registro_app/actividad/view.html',{'actividad':actividad,'active_datos':True})
+ 
+def actividad_delete(request,actividad_id):
+        actividad = get_object_or_404(Actividad, pk=actividad_id)
+        if (request.method == 'POST'):
+            actividad.delete()
+        return redirect('actividades')
+ 
+#Obras
+def obra_index(request):
+        obras= Obra.objects.all()
+        return render(request, 'registro_app/obra/index.html',{'obras':obras,'active_obras':True})
+   
+def obra_new(request):
+    if(request.method=='GET'):
+        return render(request, 'registro_app/obra/create.html', {'form': ObraForm(),'active_obras':True})
+    else:           
+        obra = ObraForm(request.POST)
+        if obra.is_valid():
+            obra.save()
+            return redirect('obras')
+        return render(request, 'registro_app/obra/create.html', {'form': obra,'active_obras':True})
+
+def obra_edit(request, obra_id):
+    obra = get_object_or_404(Obra, pk=obra_id)
+    
+    if(request.method=='GET'):
+        form=ObraForm(instance=obra)
+        return render(request, 'registro_app/obra/create.html',{'form': form,'active_obras':True})
+    else:        
+        form = ObraForm(request.POST, instance=obra)
+        if form.is_valid():
+            form.save()
+            return redirect('obra_view',obra.id)
+        return render(request, 'registro_app/obra/create.html', {'form': form,'active_obras':True})
+  
+def obra_view(request,obra_id):
+        obra= get_object_or_404(Obra,pk=obra_id)
+        return render(request, 'registro_app/obra/view.html',{'obra':obra,'active_obras':True})
+ 
+def obra_delete(request,obra_id):
+        obra = get_object_or_404(Obra, pk=obra_id)
+        if (request.method == 'POST'):
+            obra.delete()
+        return redirect('obras')
+ 
 
  

@@ -40,6 +40,18 @@ urlpatterns = [
     path('especialidades/<int:especialidad_id>', views.especialidad_view, name = 'especialidad_view'),
     path('especialidades/edit/<int:especialidad_id>', views.especialidad_edit, name = 'especialidad_edit'),
     path('especialidades/delete/<int:especialidad_id>', views.especialidad_delete, name = 'especialidad_delete'),
+    #Actividades
+    path('actividades/', views.actividad_index, name = 'actividades'),
+    path('actividades/nueva', views.actividad_new, name = 'actividad_new'),
+    path('actividades/<int:actividad_id>', views.actividad_view, name = 'actividad_view'),
+    path('actividades/edit/<int:actividad_id>', views.actividad_edit, name = 'actividad_edit'),
+    path('actividades/delete/<int:actividad_id>', views.actividad_delete, name = 'actividad_delete'),
+    #Obra
+    path('obras/', views.obra_index, name = 'obras'),
+    path('obras/nueva', views.obra_new, name = 'obra_new'),
+    path('obras/<int:obra_id>', views.obra_view, name = 'obra_view'),
+    path('obras/edit/<int:obra_id>', views.obra_edit, name = 'obra_edit'),
+    path('obras/delete/<int:obra_id>', views.obra_delete, name = 'obra_delete'),
     
 
 ]

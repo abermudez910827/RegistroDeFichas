@@ -1,0 +1,33 @@
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">{{ obra.nombre}}</h2>
+    </div>
+    <div class="col-md-12 text-right"></div>
+  </div>
+
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-6 text-center order-2 card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ obra.nombre}}</h5>
+        <p class="card-text">
+          {{ obra.descripcion}}
+        </p>
+        <div class="block">
+          <form method="GET" action="{% url 'obra_edit' obra.id %}">
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Editar</button>
+          </form>
+          <form method="POST" action="{% url 'obra_delete' obra.id %}">
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
