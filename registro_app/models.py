@@ -65,9 +65,9 @@ class QSE(models.Model):
     #zona
     zona=models.ForeignKey(Zona,on_delete=models.CASCADE)
     #objeto
-    Objeto=models.ForeignKey(Objeto,on_delete=models.CASCADE)
+    objeto=models.ForeignKey(Objeto,on_delete=models.CASCADE)
     #clasificacion 
-    casificacion = models.CharField(max_length=10, default='FAC')
+    clasificacion = models.CharField(max_length=10, default='FAC')
     # mes_en_curso
     mes_en_curso = models.ForeignKey(MesEnCurso, on_delete=models.CASCADE)
     

@@ -1,1 +1,68 @@
-{% extends 'registro_app/base.html' %} {% block content %} Hello {% endblock %}
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">Bienvenido</h2>
+    </div>
+  </div>
+  <div class="row justify-content-center mb-2 element-animate">
+    <div class="col-md-4 mb-5 text-center order-2">
+      {% if user.is_authenticated %}
+
+      <div class="row justify-content-center mt-5 mb-2 element-animate">
+        <div class="col-md-8 text-center">
+          <h2 class="heading mb-4">{{ user.username}}</h2>
+        </div>
+        <div class="col-md-12 text-right"></div>
+      </div>
+      {% else %}
+      <form method="POST">
+        {% csrf_token %}
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="id_username">Usuario:</label>
+            <input
+              type="text"
+              name="username"
+              autofocus=""
+              autocapitalize="none"
+              autocomplete="username"
+              maxlength="150"
+              required=""
+              id="id_username"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="id_password">Contraseña:</label>
+            <input
+              type="password"
+              name="password"
+              autocomplete="current-password"
+              required=""
+              id="id_password"
+              class="form-control"
+            />
+          </div>
+        </div>
+        <h5 class="text-danger">{{ error }}</h5>
+
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <input
+              type="submit"
+              value="Acceder"
+              class="btn btn-primary px-3 py-3"
+            />
+          </div>
+        </div>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock %}

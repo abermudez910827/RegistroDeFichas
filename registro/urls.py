@@ -21,13 +21,26 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     #Auth
-    path('signup/', views.signupuser, name = 'registro'),
+    # path('signup/', views.signupuser, name = 'registro'),
     path('logout/', views.logout, name = 'logout'),
 
-    path('login/', views.login, name = 'login'),
+    path('', views.login, name = 'login'),
     
     #registro_app
-    path('', views.index, name = 'index'),
+    path('', views.login, name = 'index'),
+    #personas
+    path('personas/', views.persona_index, name = 'personas'),
+    path('personas/nueva', views.persona_new, name = 'persona_new'),
+    path('personas/<int:persona_id>', views.persona_view, name = 'persona_view'),
+    path('personas/edit/<int:persona_id>', views.persona_edit, name = 'persona_edit'),
+    path('personas/delete/<int:persona_id>', views.persona_delete, name = 'persona_delete'),
+    #Especialidades
+    path('especialidades/', views.especialidad_index, name = 'especialidades'),
+    path('especialidades/nueva', views.especialidad_new, name = 'especialidad_new'),
+    path('especialidades/<int:especialidad_id>', views.especialidad_view, name = 'especialidad_view'),
+    path('especialidades/edit/<int:especialidad_id>', views.especialidad_edit, name = 'especialidad_edit'),
+    path('especialidades/delete/<int:especialidad_id>', views.especialidad_delete, name = 'especialidad_delete'),
+    
 
 ]
 
