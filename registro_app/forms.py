@@ -5,6 +5,9 @@ class PersonaForm(ModelForm):
     class Meta:
         model = Persona
         fields = ['nombre']
+        widgets = {
+            'nombre': Text(attrs={'class': 'form-control'}),
+        }
 
 class EspecialidadForm(ModelForm):
     class Meta:

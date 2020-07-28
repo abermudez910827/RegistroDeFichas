@@ -50,7 +50,7 @@ class Obra(models.Model):
         return self.nombre
     
 class MesEnCurso(models.Model):
-    mes = models.IntegerField()
+    mes = models.IntegerChoices()
     anno = models.IntegerField()
     obra=models.ForeignKey(Obra,on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True)

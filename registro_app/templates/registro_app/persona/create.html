@@ -13,18 +13,7 @@
         <div class="row">
           <div class="col-md-12 form-group">
             <label for="{{ field.id_for_label }}">Nombre:</label>
-            <!-- {{field}} -->
-            <input
-              type="text"
-              name="{{field.name}}"
-              id="{{ field.id_for_label }}"
-          {% if field.value != None %}
-              value="{{field.value}}"
-          {% endif %}
-              class="form-control"
-            />
-
-            {% for error in field.errors%}
+            {{field}} {% for error in field.errors%}
             <i class="text-danger fa fa-info">
               <strong>{{error|escape}}</strong>
             </i>
