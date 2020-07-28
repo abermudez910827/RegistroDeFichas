@@ -59,6 +59,24 @@ urlpatterns = [
     path('objetos/<int:objeto_id>', views.objeto_view, name = 'objeto_view'),
     path('objetos/edit/<int:objeto_id>', views.objeto_edit, name = 'objeto_edit'),
     path('objetos/delete/<int:objeto_id>', views.objeto_delete, name = 'objeto_delete'),
+    #Zona
+    path('zonas/', views.zona_index, name = 'zonas'),
+    path('zonas/nueva', views.zona_new, name = 'zona_new'),
+    path('zonas/<int:zona_id>', views.zona_view, name = 'zona_view'),
+    path('zonas/edit/<int:zona_id>', views.zona_edit, name = 'zona_edit'),
+    path('zonas/delete/<int:zona_id>', views.zona_delete, name = 'zona_delete'),
+    #Brigadas
+    path('brigadas/', views.brigada_index, name = 'brigadas'),
+    path('brigadas/nueva', views.brigada_new, name = 'brigada_new'),
+    path('brigadas/<int:brigada_id>', views.brigada_view, name = 'brigada_view'),
+    path('brigadas/edit/<int:brigada_id>', views.brigada_edit, name = 'brigada_edit'),
+    path('brigadas/delete/<int:brigada_id>', views.brigada_delete, name = 'brigada_delete'),
+    #Convenios
+    path('convenios/', views.convenio_index, name = 'convenios'),
+    path('convenios/nueva', views.convenio_new, name = 'convenio_new'),
+    path('convenios/<int:convenio_id>', views.convenio_view, name = 'convenio_view'),
+    path('convenios/edit/<int:convenio_id>', views.convenio_edit, name = 'convenio_edit'),
+    path('convenios/delete/<int:convenio_id>', views.convenio_delete, name = 'convenio_delete'),
     
 
 ]

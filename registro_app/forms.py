@@ -11,6 +11,11 @@ class EspecialidadForm(ModelForm):
         model = Especialidad
         fields = ['nombre']
 
+class ConvenioForm(ModelForm):
+    class Meta:
+        model = Convenio
+        fields = ['codigo','descripcion']
+
 class ActividadForm(ModelForm):
     class Meta:
         model = Actividad
@@ -24,12 +29,12 @@ class ObraForm(ModelForm):
 class BrigadaForm(ModelForm):
     class Meta:
         model = Brigada
-        fields = ['nombre','jefe']
+        fields = ['nombre','jefe','integrantes']
 
 class ZonaForm(ModelForm):
     class Meta:
         model = Zona
-        fields = ['nombre']
+        fields = ['nombre','objetos']
 
 class ObjetoForm(ModelForm):
     class Meta:

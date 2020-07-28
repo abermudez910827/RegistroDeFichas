@@ -4,7 +4,7 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate,login as v_login,logout as v_logout
-from .forms import PersonaForm,EspecialidadForm,ActividadForm,ObraForm,BrigadaForm,ObjetoForm
+from .forms import PersonaForm,EspecialidadForm,ActividadForm,ObraForm,BrigadaForm,ObjetoForm,ZonaForm,ConvenioForm
 from .models import Persona,Convenio,Especialidad,Brigada,QSE,Actividad,Zona,Objeto,Obra,MesEnCurso
 
 def index(request):
@@ -79,8 +79,8 @@ def persona_edit(request, persona_id):
         return render(request, 'registro_app/persona/create.html', {'form': form,'active_datos':True})
 
 def persona_view(request,persona_id):
-        persona= get_object_or_404(Persona,pk=persona_id)
-        return render(request, 'registro_app/persona/view.html',{'persona':persona,'active_datos':True})
+    persona= get_object_or_404(Persona,pk=persona_id)
+    return render(request, 'registro_app/persona/view.html',{'persona':persona,'active_datos':True})
 @login_required(login_url='/')
 def persona_delete(request,persona_id):
         persona = get_object_or_404(Persona, pk=persona_id)
@@ -211,7 +211,6 @@ def objeto_index(request):
         
 @login_required(login_url='/')
 def objeto_new(request):
-    if request.user.is_authenticated:
         if(request.method=='GET'):
             return render(request, 'registro_app/objeto/create.html', {'form': ObjetoForm(),'active_objetos':True})
         else:           
@@ -220,8 +219,7 @@ def objeto_new(request):
                 objeto.save()
                 return redirect('objetos')
             return render(request, 'registro_app/objeto/create.html', {'form': objeto, 'active_objetos': True})
-    else:
-        return redirect('denegado')
+    
 
 @login_required(login_url='/')
 def objeto_edit(request, objeto_id):
@@ -248,4 +246,128 @@ def objeto_delete(request,objeto_id):
             objeto.delete()
         return redirect('objetos')
    
- 
+#Zonas
+def zona_index(request):
+        zonas= Zona.objects.all()
+        return render(request, 'registro_app/zona/index.html', {'zonas': zonas, 'active_zonas': True})
+        
+@login_required(login_url='/')
+def zona_new(request):
+        if(request.method=='GET'):
+            return render(request, 'registro_app/zona/create.html', {'form': ZonaForm(),'active_zonas':True})
+        else:           
+            zona = ZonaForm(request.POST)
+            if zona.is_valid():
+                zona.save()
+                return redirect('zonas')
+            return render(request, 'registro_app/zona/create.html', {'form': zona, 'active_zonas': True})
+   
+
+@login_required(login_url='/')
+def zona_edit(request, zona_id):
+        zona = get_object_or_404(Zona, pk=zona_id)
+        
+        if(request.method=='GET'):
+            form=ZonaForm(instance=zona)
+            return render(request, 'registro_app/zona/create.html',{'form': form,'active_zonas':True})
+        else:        
+            form = ZonaForm(request.POST, instance=zona)
+            if form.is_valid():
+                form.save()
+                return redirect('zona_view',zona.id)
+            return render(request, 'registro_app/zona/create.html', {'form': form,'active_zonas':True})
+    
+def zona_view(request,zona_id):
+        zona= get_object_or_404(Zona,pk=zona_id)
+        return render(request, 'registro_app/zona/view.html', {'zona': zona, 'active_zonas': True})
+        
+@login_required(login_url='/')
+def zona_delete(request,zona_id):
+        zona = get_object_or_404(Zona, pk=zona_id)
+        if (request.method == 'POST'):
+            zona.delete()
+        return redirect('zonas')
+   
+#Brigadas
+def brigada_index(request):
+        brigadas= Brigada.objects.all()
+        return render(request, 'registro_app/brigada/index.html', {'brigadas': brigadas, 'active_brigadas': True})
+        
+@login_required(login_url='/')
+def brigada_new(request):
+        if(request.method=='GET'):
+            return render(request, 'registro_app/brigada/create.html', {'form': BrigadaForm(),'active_brigadas':True})
+        else:           
+            brigada = BrigadaForm(request.POST)
+            if brigada.is_valid():
+                brigada.save()
+                return redirect('brigadas')
+            return render(request, 'registro_app/brigada/create.html', {'form': brigada, 'active_brigadas': True})
+   
+
+@login_required(login_url='/')
+def brigada_edit(request, brigada_id):
+        brigada = get_object_or_404(Brigada, pk=brigada_id)
+        
+        if(request.method=='GET'):
+            form=BrigadaForm(instance=brigada)
+            return render(request, 'registro_app/brigada/create.html',{'form': form,'active_brigadas':True})
+        else:        
+            form = BrigadaForm(request.POST, instance=brigada)
+            if form.is_valid():
+                form.save()
+                return redirect('brigada_view',brigada.id)
+            return render(request, 'registro_app/brigada/create.html', {'form': form,'active_brigadas':True})
+    
+def brigada_view(request,brigada_id):
+        brigada= get_object_or_404(Brigada,pk=brigada_id)
+        return render(request, 'registro_app/brigada/view.html', {'brigada': brigada, 'active_brigadas': True})
+        
+@login_required(login_url='/')
+def brigada_delete(request,brigada_id):
+    brigada = get_object_or_404(Brigada, pk=brigada_id)
+    if (request.method == 'POST'):
+        brigada.delete()
+    return redirect('brigadas')
+   
+#Convenios
+def convenio_index(request):
+    convenios= Convenio.objects.all()
+    return render(request, 'registro_app/convenio/index.html', {'convenios': convenios, 'active_convenios': True})
+        
+@login_required(login_url='/')
+def convenio_new(request):
+    if(request.method=='GET'):
+        return render(request, 'registro_app/convenio/create.html', {'form': ConvenioForm(),'active_convenios':True})
+    else:           
+        convenio = ConvenioForm(request.POST)
+        if convenio.is_valid():
+            convenio.save()
+            return redirect('convenios')
+        return render(request, 'registro_app/convenio/create.html', {'form': convenio, 'active_convenios': True})
+   
+
+@login_required(login_url='/')
+def convenio_edit(request, convenio_id):
+        convenio = get_object_or_404(Convenio, pk=convenio_id)
+        
+        if(request.method=='GET'):
+            form=ConvenioForm(instance=convenio)
+            return render(request, 'registro_app/convenio/create.html',{'form': form,'active_convenios':True})
+        else:        
+            form = ConvenioForm(request.POST, instance=convenio)
+            if form.is_valid():
+                form.save()
+                return redirect('convenio_view',convenio.id)
+            return render(request, 'registro_app/convenio/create.html', {'form': form,'active_convenios':True})
+    
+def convenio_view(request,convenio_id):
+        convenio= get_object_or_404(Convenio,pk=convenio_id)
+        return render(request, 'registro_app/convenio/view.html', {'convenio': convenio, 'active_convenios': True})
+        
+@login_required(login_url='/')
+def convenio_delete(request,convenio_id):
+        convenio = get_object_or_404(Convenio, pk=convenio_id)
+        if (request.method == 'POST'):
+            convenio.delete()
+        return redirect('convenios')

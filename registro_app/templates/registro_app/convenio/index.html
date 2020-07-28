@@ -1,0 +1,38 @@
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">Convenios</h2>
+    </div>
+    <div class="col-md-12 text-right">
+      <a class="btn btn-success" href="{% url 'convenio_new' %}">Nuevo</a>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Código</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for convenio in convenios %}
+
+        <tr>
+          <th>
+            <a href="{% url 'convenio_view' convenio.id %}">{{convenio.id}}</a>
+          </th>
+          <td>
+            <a href="{% url 'convenio_view' convenio.id %}"
+              >{{convenio.codigo}}</a
+            >
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

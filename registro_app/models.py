@@ -37,7 +37,7 @@ class Objeto(models.Model):
 
 class Zona(models.Model):
     nombre = models.CharField(max_length=255)
-    objetos= models.ManyToManyField(Objeto, verbose_name="lista de objetos")
+    objetos = models.ManyToManyField(Objeto, verbose_name="lista de objetos")
     def __str__(self):
         return self.nombre
  
