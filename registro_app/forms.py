@@ -1,5 +1,6 @@
-from django.forms import ModelForm,TextInput,Textarea,DateInput,CheckboxInput,Select,SelectMultiple,CheckboxSelectMultiple
-from .models import Persona,Convenio,Especialidad,Brigada,QSE,Actividad,Zona,Objeto,Obra,MesEnCurso
+from django.forms import ModelForm, TextInput, Textarea, DateInput, CheckboxInput, Select, SelectMultiple, CheckboxSelectMultiple
+from .models import Persona, Convenio, Especialidad, Brigada, QSE, Actividad, Zona, Objeto, Obra, MesEnCurso
+
 
 class PersonaForm(ModelForm):
     class Meta:
@@ -7,18 +8,19 @@ class PersonaForm(ModelForm):
         fields = ['nombre']
         labels = {
             'name': ('Nombre'),
-            }
+        }
         help_texts = {
             'name': ('Nombre de la persona.'),
-            }
+        }
         error_messages = {
             'name': {
                 'max_length': ("El nombre es muy largo."),
-                    },
-             }
+            },
+        }
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'}),
         }
+
 
 class EspecialidadForm(ModelForm):
     class Meta:
@@ -28,6 +30,7 @@ class EspecialidadForm(ModelForm):
             'nombre': TextInput(attrs={'class': 'form-control'}),
         }
 
+
 class ConvenioForm(ModelForm):
     class Meta:
         model = Convenio
@@ -35,12 +38,13 @@ class ConvenioForm(ModelForm):
         labels = {
             'codigo': ('Código'),
             'descripcion': ('Descripción'),
-            }
+        }
         widgets = {
             'codigo': TextInput(attrs={'class': 'form-control'}),
             'descripcion': Textarea(attrs={'class': 'form-control'})
 
         }
+
 
 class ActividadForm(ModelForm):
     class Meta:
@@ -49,11 +53,12 @@ class ActividadForm(ModelForm):
         labels = {
             'nombre': ('Nombre'),
             'descripcion': ('Descripción'),
-            }
+        }
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'}),
             'descripcion': Textarea(attrs={'class': 'form-control'})
         }
+
 
 class ObraForm(ModelForm):
     class Meta:
@@ -62,11 +67,12 @@ class ObraForm(ModelForm):
         labels = {
             'nombre': ('Nombre'),
             'descripcion': ('Descripción'),
-            }
+        }
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'}),
             'descripcion': Textarea(attrs={'class': 'form-control'})
         }
+
 
 class BrigadaForm(ModelForm):
     class Meta:
@@ -76,12 +82,13 @@ class BrigadaForm(ModelForm):
             'nombre': ('Nombre'),
             'jefe': ('Jefe'),
             'integrantes': ('Integrantes'),
-            }
+        }
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'}),
             'jefe': Select(attrs={'class': 'form-control'}),
-            'integrantes': SelectMultiple(attrs={'class': 'form-control' })
+            'integrantes': SelectMultiple(attrs={'class': 'form-control'})
         }
+
 
 class ZonaForm(ModelForm):
     class Meta:
@@ -90,11 +97,12 @@ class ZonaForm(ModelForm):
         labels = {
             'nombre': ('Nombre'),
             'objetos': ('Objetos'),
-            }
+        }
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'}),
             'objetos': SelectMultiple(attrs={'class': 'form-control'})
         }
+
 
 class ObjetoForm(ModelForm):
     class Meta:
@@ -103,6 +111,7 @@ class ObjetoForm(ModelForm):
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'})
         }
+
 
 class MesEnCursoForm(ModelForm):
     class Meta:
@@ -113,26 +122,27 @@ class MesEnCursoForm(ModelForm):
             'anno': TextInput(attrs={'class': 'form-control'}),
             'objetos': Select(attrs={'class': 'form-control'})
         }
-        
+
+
 class QSEForm(ModelForm):
     class Meta:
         model = QSE
         fields = ['nro',
-        'especialidad',
-        'convenio',
-        'actividad',
-        'brigada',
-        'zona',
-        'objeto',
-        'clasificacion',
-        'mes_en_curso',
-        'fecha',
-        'aprobacion',
-        'observaciones']
+                  'especialidad',
+                  'convenio',
+                  'actividad',
+                  'brigada',
+                  'zona',
+                  'objeto',
+                  'clasificacion',
+                  'mes_en_curso',
+                  'fecha',
+                  'aprobacion',
+                  'observaciones']
 
         labels = {
             'aprobacion': ('Aprobación'),
-            }
+        }
         widgets = {
             'nro': TextInput(attrs={'class': 'form-control'}),
             'especialidad': Select(attrs={'class': 'form-control'}),
@@ -147,7 +157,7 @@ class QSEForm(ModelForm):
             'aprobacion': CheckboxInput(attrs={'class': 'form-control '}),
             'observaciones': Textarea(attrs={'class': 'form-control'})
         }
-        
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['objeto'].queryset = Objeto.objects.none()
@@ -155,9 +165,11 @@ class QSEForm(ModelForm):
         if 'zona' in self.data:
             try:
                 zona_id = int(self.data.get('zona'))
-                self.fields['objeto'].queryset = Objeto.objects.filter(zona=zona_id).order_by('nombre')
+                self.fields['objeto'].queryset = Objeto.objects.filter(
+                    zona=zona_id).order_by('nombre')
             except (ValueError, TypeError):
                 pass  # invalid input from the client; ignore and fallback to empty objeto queryset
         elif self.instance.pk:
-            self.fields['objeto'].queryset = Objeto.objects.filter(zona=self.instance.zona.pk).order_by('nombre')
+            self.fields['objeto'].queryset = Objeto.objects.filter(
+                zona=self.instance.zona.pk).order_by('nombre')
             # self.instance.zona.objeto_set.order_by('nombre')
