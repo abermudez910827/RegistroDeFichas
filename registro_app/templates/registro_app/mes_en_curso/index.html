@@ -1,0 +1,46 @@
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">Mes en curso</h2>
+    </div>
+    <div class="col-md-12 text-right">
+      <a class="btn btn-success" href="{% url 'mes_en_curso_new' %}">Nuevo</a>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Mes</th>
+          <th scope="col">Año</th>
+          <th scope="col">Obra</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mes_en_curso in mes_en_cursos %}
+
+        <tr>
+          <th>
+            <a href="{% url 'mes_en_curso_view' mes_en_curso.id %}"
+              >{{mes_en_curso.id}}</a
+            >
+          </th>
+          <td>
+            {{mes_en_curso.get_mes_display}}
+          </td>
+          <td>
+            {{mes_en_curso.anno}}
+          </td>
+          <td>
+            {{mes_en_curso.obra.nombre}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -59,6 +59,7 @@ urlpatterns = [
     path('objetos/<int:objeto_id>', views.objeto_view, name = 'objeto_view'),
     path('objetos/edit/<int:objeto_id>', views.objeto_edit, name = 'objeto_edit'),
     path('objetos/delete/<int:objeto_id>', views.objeto_delete, name = 'objeto_delete'),
+    path('ajax/load-objetos/', views.load_objetos, name='ajax_load_objetos'),
     #Zona
     path('zonas/', views.zona_index, name = 'zonas'),
     path('zonas/nueva', views.zona_new, name = 'zona_new'),
@@ -77,6 +78,18 @@ urlpatterns = [
     path('convenios/<int:convenio_id>', views.convenio_view, name = 'convenio_view'),
     path('convenios/edit/<int:convenio_id>', views.convenio_edit, name = 'convenio_edit'),
     path('convenios/delete/<int:convenio_id>', views.convenio_delete, name = 'convenio_delete'),
+    #MesEnCurso
+    path('mes_en_cursos/', views.mes_en_curso_index, name = 'mes_en_cursos'),
+    path('mes_en_cursos/nueva', views.mes_en_curso_new, name = 'mes_en_curso_new'),
+    path('mes_en_cursos/<int:mes_en_curso_id>', views.mes_en_curso_view, name = 'mes_en_curso_view'),
+    path('mes_en_cursos/edit/<int:mes_en_curso_id>', views.mes_en_curso_edit, name = 'mes_en_curso_edit'),
+    path('mes_en_cursos/delete/<int:mes_en_curso_id>', views.mes_en_curso_delete, name = 'mes_en_curso_delete'),
+    #QSE
+    path('qses/', views.qse_index, name = 'qses'),
+    path('qses/nueva', views.qse_new, name = 'qse_new'),
+    path('qses/<int:qse_id>', views.qse_view, name = 'qse_view'),
+    path('qses/edit/<int:qse_id>', views.qse_edit, name = 'qse_edit'),
+    path('qses/delete/<int:qse_id>', views.qse_delete, name = 'qse_delete'),
     
 
 ]

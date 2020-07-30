@@ -1,0 +1,4 @@
+<option value="" selected>---------</option>
+{% for objeto in objetos %}
+<option value="{{ objeto.pk }}">{{ objeto.nombre }}</option>
+{% endfor %}

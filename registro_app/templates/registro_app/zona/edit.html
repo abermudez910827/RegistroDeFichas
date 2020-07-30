@@ -1,16 +1,12 @@
-{% extends 'registro_app/base.html' %}
-{% load static %}
-{% block styles %}
+{% extends 'registro_app/base.html' %} {% load static %} {% block styles %}
 <link rel="stylesheet" href="{% static 'select2/select2.css' %}" />
 
-{% endblock %}
-
- {% block content %}
+{% endblock %} {% block content %}
 
 <div class="container">
   <div class="row justify-content-center mt-5 mb-2 element-animate">
     <div class="col-md-8 text-center">
-      <h2 class="heading mb-4">Crear zona</h2>
+      <h2 class="heading mb-4">Editar zona</h2>
     </div>
   </div>
   <div class="row justify-content-center mb-2 element-animate">
@@ -31,7 +27,11 @@
         {% endfor %}
         <div class="row">
           <div class="col-md-12 form-group">
-            <input type="submit" value="Guardar" class="btn btn-primary px-3 py-3" />
+            <input
+              type="submit"
+              value="Guardar"
+              class="btn btn-primary px-3 py-3"
+            />
           </div>
         </div>
       </form>
@@ -39,26 +39,23 @@
   </div>
 </div>
 
-{% endblock %}
-
-{% block scripts %}
+{% endblock %} {% block scripts %}
 <!-- <script src="{% static 'select2/select2.js' %}"></script> -->
 
 <script>
-
   //
-    //  Dynamically load jQuery Select2 plugin
-    //  homepage: https://github.com/ivaynberg/select2  v3.4.5  license - GPL2
-    //
-    function LoadSelect2Script(callback) {
-      if (!$.fn.select2) {
-        $.getScript("{% static 'select2/select2.js' %}", callback);
-      } else {
-        if (callback && typeof callback === "function") {
-          callback();
-        }
+  //  Dynamically load jQuery Select2 plugin
+  //  homepage: https://github.com/ivaynberg/select2  v3.4.5  license - GPL2
+  //
+  function LoadSelect2Script(callback) {
+    if (!$.fn.select2) {
+      $.getScript("{% static 'select2/select2.js' %}", callback);
+    } else {
+      if (callback && typeof callback === "function") {
+        callback();
       }
-    } 
+    }
+  }
 
   function DemoSelect2() {
     $("#id_objetos").select2();
@@ -68,7 +65,6 @@
     LoadSelect2Script(DemoSelect2);
     // $('#siri_mainbundle_personaestudiante_fechaNacimiento').datepicker({ setDate: new Date() });
   });
-
 </script>
 
 {% endblock %}

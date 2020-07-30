@@ -1,0 +1,156 @@
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">QSE</h2>
+    </div>
+    <div class="col-md-12 text-right">
+      <a class="btn btn-success" href="{% url 'qse_new' %}">Nuevo</a>
+    </div>
+  </div>
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <table class="table table-responsive-md table-bordered table-striped">
+      <thead>
+        <tr>
+          <th scope="col">Nro</th>
+          <th scope="col">Brigada</th>
+          <th scope="col">Especialidad</th>
+          <th scope="col">Nro de convenio</th>
+          <th scope="col">Zona</th>
+          <th scope="col">Objeto</th>
+          <th scope="col">Aprobación</th>
+          <th scope="col">Fecha</th>
+          <th scope="col">Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for qse in qses %}
+
+        <tr>
+          <th>
+            <a href="{% url 'qse_edit' qse.id %}">QSE{{qse.nro}}</a>
+          </th>
+          <td>
+            <a href="{% url 'brigada_edit' qse.brigada.pk %}"
+              ><strong>{{qse.brigada}}</strong><br/>
+              ({{qse.brigada.jefe}})</a
+            >
+          </td>
+          <td>
+            <a href="{% url 'especialidad_edit' qse.especialidad.pk %}"
+              >{{qse.especialidad}}</a
+            >
+          </td>
+          <td>
+            <a href="{% url 'convenio_edit' qse.convenio.pk %}"
+              >{{qse.convenio}}</a
+            >
+          </td>
+          <td>
+            <a href="{% url 'zona_edit' qse.zona.pk %}">{{qse.zona}}</a>
+          </td>
+          <td>
+            <a href="{% url 'objeto_edit' qse.objeto.pk %}">{{qse.objeto}}</a>
+          </td>
+          <td >
+            
+              {% if qse.aprobacion %} 
+              <div class="badge badge-success text-wrap text-center font-weight-bold">
+                Aprobado  
+                {%else%} 
+              <div class="badge badge-danger text-wrap text-center font-weight-bold">
+                Por aprobar
+                {% endif%}
+              </div>
+            
+          </td>
+          <td>
+            {{qse.fecha}}
+          </td>
+          <td>
+            {{qse.observaciones}}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% if qses.paginator.num_pages > 1 %}
+    <nav aria-label="Page navigation ">
+      <ul class="pagination justify-content-center">
+        {% if qses.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page=1" tabindex="-1">Primera</a>
+        </li>
+        <li class="page-item">
+          <a
+            class="page-link"
+            href="?page={{ qses.previous_page_number }}"
+            tabindex="-1"
+            >Anterior</a
+          >
+        </li>
+        {%else%}
+        <li class="page-item disabled">
+          <a class="page-link" href="?page=1" tabindex="-1" aria-disabled="true"
+            >Primera</a
+          >
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1" aria-disabled="true"
+            >Anterior</a
+          >
+        </li>
+        {% endif %} 
+        
+        {% if qses.number|add:'-4' > 1 %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{qses.number|add:'-5'}}">&hellip;</a>
+          </li>
+        {% endif%}
+        {% for page in qses.paginator.page_range %} 
+        {% if page == qses.number %}
+        <li class="page-item active" aria-current="page">
+          <span class="page-link">
+            {{page}}
+            <span class="sr-only">(current)</span>
+          </span>
+        </li>
+
+        {% elif page > qses.number|add:'-5' and page < qses.number|add:'5' %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{page}}">{{page}}</a>
+        </li>
+        {% endif %} {% endfor%} 
+        
+        
+        {% if qses.paginator.num_pages > qses.number|add:'4'  %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{qses.number|add:'5'}}">&hellip;</a>
+        </li>
+        {% endif%}
+
+
+        {% if qses.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ qses.next_page_number }}">Next</a>
+        </li>
+        <li class="page-item">
+          <a class="page-link" href="?page={{ qses.paginator.num_pages }}"
+            >Last</a
+          >
+        </li>
+        {%else%}
+        <li class="page-item disabled">
+          <a class="page-link" href="#" aria-disabled="true">Next</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="#" aria-disabled="true">Last</a>
+        </li>
+        {% endif %}
+      </ul>
+    </nav>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

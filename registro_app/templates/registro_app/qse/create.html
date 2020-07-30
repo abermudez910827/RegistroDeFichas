@@ -1,0 +1,107 @@
+{% extends 'registro_app/base.html' %}
+
+
+{% load static %}
+{% block styles %}
+<link rel="stylesheet" href="{% static 'select2/select2.css' %}" />
+
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">Nuevo QSE</h2>
+    </div>
+  </div>
+  <div class="row justify-content-center mb-2 element-animate">
+    <div class="col-md-6 mb-5 text-center order-2">
+      <form
+        method="POST"
+        id="qseForm"
+        data-objetos-url="{% url 'ajax_load_objetos' %}"
+      >
+        {% csrf_token %} {% for field in form %}
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="{{ field.id_for_label }}">{{field.label}}:</label>
+            {{field}} {% for error in field.errors%}
+            <i class="text-danger fa fa-info">
+              <strong>{{error|escape}}</strong>
+            </i>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% endfor %}
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <input
+              type="submit"
+              value="Guardar"
+              class="btn btn-primary px-3 py-3"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+  //
+  //  Dynamically load jQuery Select2 plugin
+  //  homepage: https://github.com/ivaynberg/select2  v3.4.5  license - GPL2
+  //
+  function LoadSelect2Script(callback) {
+    if (!$.fn.select2) {
+      $.getScript("{% static 'select2/select2.js' %}", callback);
+    } else {
+      if (callback && typeof callback === "function") {
+        callback();
+      }
+    }
+  }
+
+  function DemoSelect2() {
+    $("#id_objeto").select2();
+    $("#id_especialidad").select2();
+    $("#id_convenio").select2();
+    $("#id_actividad").select2();
+    $("#id_brigada").select2();
+    $("#id_zona").select2();
+    $("#id_mes_en_curso").select2();
+  }
+
+  $(document).ready(function () {
+     
+      $('#id_fecha').datepicker({ setDate: new Date() });
+
+
+    LoadSelect2Script(DemoSelect2);
+    // $('#siri_mainbundle_personaestudiante_fechaNacimiento').datepicker({ setDate: new Date() });
+  });
+
+  $("#id_zona").change(function () {
+    var url = $("#qseForm").attr("data-objetos-url");
+    var zonaId = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'zona': zonaId,
+      },
+      success: function (data) {
+        $("#id_objeto").html(data);
+      },
+    });
+  });
+</script>
+
+{% endblock %}

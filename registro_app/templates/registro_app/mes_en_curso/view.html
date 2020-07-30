@@ -1,0 +1,39 @@
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">{{ mes_en_curso.get_mes_display}} {{ mes_en_curso.anno}}</h2>
+    </div>
+    <div class="col-md-12 text-right"></div>
+  </div>
+
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-6 text-center order-2 card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">{{ mes_en_curso.get_mes_display}} {{ mes_en_curso.anno}}</h5>
+        <p class="card-text">
+          {{ mes_en_curso.obra.nombre}}
+        </p>
+        <div class="block">
+          <form
+            method="GET"
+            action="{% url 'mes_en_curso_edit' mes_en_curso.id %}"
+          >
+            {% csrf_token %}
+            <button class="btn btn-primary" type="submit">Editar</button>
+          </form>
+          <form
+            method="POST"
+            action="{% url 'mes_en_curso_delete' mes_en_curso.id %}"
+          >
+            {% csrf_token %}
+            <button class="btn btn-danger" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

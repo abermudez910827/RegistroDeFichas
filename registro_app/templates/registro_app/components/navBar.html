@@ -1,0 +1,66 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'index' %}">Fichas de Autocontrol</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbars"
+            aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbars">
+            <ul class="navbar-nav pl-md-5 ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link {% if active_index %} active{% endif %}" href="{% url 'index' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_qses %} active{% endif %}" href="{% url 'qses' %}">QSE</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_obras %} active{% endif %}" href="{% url 'obras' %}">Obras</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if active_mes_en_cursos %} active{% endif %}"
+                        href="{% url 'mes_en_cursos' %}">Mes en Curso</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle {% if active_datos %} active{% endif %}" href="" id="dropdown04"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Datos</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown04">
+                        <a class="dropdown-item {% if active_personas %} active{% endif %}"
+                            href="{% url 'personas' %}">Personas</a>
+                        <a class="dropdown-item {% if active_convenios %} active{% endif %}"
+                            href="{% url 'convenios' %}">Convenios</a>
+                        <a class="dropdown-item {% if active_especialidades %} active{% endif %}"
+                            href="{% url 'especialidades' %}">Especialidades</a>
+                        <a class="dropdown-item {% if active_brigadas %} active{% endif %}"
+                            href="{% url 'brigadas' %}">Brigadas</a>
+                        <a class="dropdown-item {% if active_zonas %} active{% endif %}"
+                            href="{% url 'zonas' %}">Zonas</a>
+                        <a class="dropdown-item {% if active_objetos %} active{% endif %}"
+                            href="{% url 'objetos' %}">Objetos</a>
+                        <a class="dropdown-item {% if active_actividades %} active{% endif %}"
+                            href="{% url 'actividades' %}">Actividades</a>
+                    </div>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav pl-md-5 ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown05" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">{{ user.username }}</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown05">
+                        <form action="{% url 'logout' %}" method="POST">
+                            {% csrf_token %}
+
+                            <button class="dropdown-item btn" type="submit">
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </li>
+
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

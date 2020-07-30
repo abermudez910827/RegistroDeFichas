@@ -50,13 +50,28 @@ class Obra(models.Model):
         return self.nombre
     
 class MesEnCurso(models.Model):
-    mes = models.IntegerChoices()
+
+    class Mes(models.IntegerChoices):
+        Enero = 1
+        Febrero = 2
+        Marzo = 3
+        Abril = 4
+        Mayo = 5
+        Junio = 6
+        Julio = 7
+        Agosto = 8
+        Septiembre = 9
+        Octubre = 10
+        Noviembre = 11
+        Diciembre = 12
+
+    mes=models.IntegerField(choices=Mes.choices,default=-1)
     anno = models.IntegerField()
     obra=models.ForeignKey(Obra,on_delete=models.CASCADE)
     created=models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.mes + ' ' + self.anno
+        return str(self.mes) + '/' + str(self.anno)
         
 class QSE(models.Model):
     nro=models.IntegerField(unique=True,blank=True)
@@ -81,8 +96,19 @@ class QSE(models.Model):
     aprobacion=models.BooleanField(default=False)
     observaciones = models.TextField(blank=True)
 
-    def __str__(self):
-        return self.nro
+    # def save(self, *args, **kwargs):
+    #     qses = QSE.objects.order_by('-nro')
+    #     self.nro = qses[0].nro + 1
+    #     super().save(*args, **kwargs) # Call the "real" save() method.
+
+    # def update(self, *args, **kwargs):
+    #     # qses = QSE.objects.order_by('-nro')
+    #     # self.nro = qses[0].nro + 1
+    #     super().save(*args, **kwargs) # Call the "real" save() method.
+
+
+    # def __str__(self):
+    #     return self.nro
 
 
 
