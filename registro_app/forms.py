@@ -1,6 +1,6 @@
 from django.forms import ModelForm, TextInput, Textarea, DateInput, CheckboxInput, Select, SelectMultiple, CheckboxSelectMultiple
 from .models import Persona, Convenio, Especialidad, Brigada, QSE, Actividad, Zona, Objeto, Obra, MesEnCurso
-
+from django import forms
 
 class PersonaForm(ModelForm):
     class Meta:
@@ -173,3 +173,8 @@ class QSEForm(ModelForm):
             self.fields['objeto'].queryset = Objeto.objects.filter(
                 zona=self.instance.zona.pk).order_by('nombre')
             # self.instance.zona.objeto_set.order_by('nombre')
+
+#Subir un excel
+class UploadExcelForm(forms.Form):
+
+    archivo = forms.FileField()

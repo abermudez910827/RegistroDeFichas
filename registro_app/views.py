@@ -5,8 +5,10 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import authenticate,login as v_login,logout as v_logout
-from .forms import PersonaForm,EspecialidadForm,ActividadForm,ObraForm,BrigadaForm,ObjetoForm,ZonaForm,ConvenioForm,MesEnCursoForm,QSEForm
+from .forms import UploadExcelForm,PersonaForm,EspecialidadForm,ActividadForm,ObraForm,BrigadaForm,ObjetoForm,ZonaForm,ConvenioForm,MesEnCursoForm,QSEForm
 from .models import Persona,Convenio,Especialidad,Brigada,QSE,Actividad,Zona,Objeto,Obra,MesEnCurso
+from openpyxl import load_workbook
+
 
 def index(request):
     return render(request, 'registro_app/index.html',{'active_index':True})
@@ -475,3 +477,48 @@ def qse_delete(request,qse_id):
         if (request.method == 'POST'):
             qse.delete()
         return redirect('qses')
+
+#Subir un excel
+@login_required(login_url='/')
+def handle_uploaded_file(request,f):
+    with open('name.xlsx', 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+        try:
+            wb = load_workbook(filename='name.xlsx')
+            sheet_ranges = wb['Hoja1']
+            if sheet_ranges['A1'].value == 'codigoConvenio' and sheet_ranges['B1'].value == 'descripcionConvenio' :
+                pos=2
+                while(sheet_ranges['A'+str(pos)].value != None):
+                    convenio_temp = Convenio(
+                        codigo=sheet_ranges['A' + str(pos)].value,
+                        descripcion=sheet_ranges['B'+str(pos)].value)
+                    try:
+                        convenio_temp.save()
+                    except IntegrityError:
+                        pass
+                    pos += 1
+
+                return True
+            else:
+                return False
+
+        except:
+            return False
+        
+@login_required(login_url='/')           
+def upload_excel(request):
+    if request.method == 'GET':
+        form = UploadExcelForm()
+        return render(request, 'registro_app/qse/uploadExcel.html', {'form': form,'success':False})
+    else:
+        form = UploadExcelForm(request.POST, request.FILES)
+        if form.is_valid():
+            if handle_uploaded_file(request, request.FILES['archivo']):
+                return render(request, 'registro_app/qse/uploadExcel.html', {'success': True})
+            else:
+                return render(request, 'registro_app/qse/uploadExcel.html', {'error': True})
+
+
+
+

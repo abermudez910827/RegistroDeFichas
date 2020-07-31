@@ -1,0 +1,73 @@
+{% extends 'registro_app/base.html' %} {% block content %}
+
+<div class="container">
+  <div class="row justify-content-center mt-5 mb-2 element-animate">
+    <div class="col-md-8 text-center">
+      <h2 class="heading mb-4">Subir Excel</h2>
+    </div>
+  </div>
+  <div class="row justify-content-center mb-2 element-animate">
+    <div class="col-md-6 mb-5 text-center order-2">
+      <h1></h1>
+      {% if success %}
+      <h1><i class="fa fa-check-circle text-success"></i></h1>
+      <a href="{% url 'convenios' %}" class="btn btn-success">Regresar</a>
+      {% elif error %}
+      <h1 ><i class="fa fa-close text-danger"></i>Ocurrio un error</h1>
+      <h5>Intente subir un archivo excel válido</h5>
+      <a href="{% url 'upload_excel' %}" class="btn btn-danger"
+        >Volver a intentar</a
+      >
+      {% else %}
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %} {% for field in form %}
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <label for="{{ field.id_for_label }}">Archivo:</label>
+            {{field}} {% for error in field.errors%}
+            <i class="text-danger fa fa-info">
+              <strong>{{error|escape}}</strong>
+            </i>
+            {% endfor %}
+          </div>
+        </div>
+
+        {% endfor %}
+        <div class="row">
+          <div class="col-md-12 form-group">
+            <button
+              type="submit"
+              class="btn btn-primary px-3 py-3"
+              data-toggle="modal"
+              data-target="#exampleModalLive"
+            >
+              Subir
+            </button>
+            <!-- <input type="submit" value="Subir" class="btn btn-primary px-3 py-3" /> -->
+          </div>
+        </div>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="modal" tabindex="-1" role="dialog" id="exampleModalLive">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <h3 class="text-center">Cargando</h3>
+        <div class="progress">
+          <div
+            class="progress-bar progress-bar-striped progress-bar-animated"
+            role="progressbar"
+            aria-valuemin="0"
+            aria-valuemax="100"
+            aria-valuenow="100"
+            style="width: 100%;"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
