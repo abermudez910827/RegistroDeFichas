@@ -13,27 +13,45 @@
       <div class="card-body">
         <h5 class="card-title">QSE{{qse.nro}}</h5>
         <p class="card-text">
-          {{ qse.especialidad}} <br/>
+          {{ qse.especialidad}} <br />
           {{qse.convenio}}<br />
-        {{qse.zona}} <br />
+          {{qse.zona}} <br />
           {{qse.objeto}}<br />
           {{qse.clasificacion}}<br />
           {{qse.observaciones}}<br />
         </p>
         <div class="block">
-          <form
-            method="GET"
-            action="{% url 'qse_edit' qse.id %}"
-          >
+          <form method="GET" action="{% url 'qse_edit' qse.id %}">
             {% csrf_token %}
             <button class="btn btn-primary" type="submit">Editar</button>
           </form>
-          <form
-            method="POST"
-            action="{% url 'qse_delete' qse.id %}"
-          >
+          <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="delete" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger"><i class="fa fa-exclamation-circle"></i> Eliminar</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text-danger">Al eliminar un objeto se eliminan todas sus dependencias. Esta acción no se puede deshacer.</p>
+        </div>
+        <div class="modal-footer">
+  
+          <form method="POST" action="{% url 'qse_delete' qse.id %}">
             {% csrf_token %}
-            <button class="btn btn-danger" type="submit">Delete</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+              Cerrar
+            </button>
+            <button class="btn btn-danger" type="submit">Eliminar</button>
           </form>
         </div>
       </div>
