@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Convenio(models.Model):
     codigo = models.CharField(max_length=10,unique=True)
     descripcion = models.TextField(blank=True)
@@ -96,19 +97,6 @@ class QSE(models.Model):
     aprobacion=models.BooleanField(default=False)
     observaciones = models.TextField(blank=True)
 
-    # def save(self, *args, **kwargs):
-    #     qses = QSE.objects.order_by('-nro')
-    #     self.nro = qses[0].nro + 1
-    #     super().save(*args, **kwargs) # Call the "real" save() method.
-
-    # def update(self, *args, **kwargs):
-    #     # qses = QSE.objects.order_by('-nro')
-    #     # self.nro = qses[0].nro + 1
-    #     super().save(*args, **kwargs) # Call the "real" save() method.
-
-
-    # def __str__(self):
-    #     return self.nro
 
 
 

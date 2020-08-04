@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
 from registro_app import views
 
 urlpatterns = [
@@ -84,14 +85,15 @@ urlpatterns = [
     path('brigadas/delete/<int:brigada_id>',
          views.brigada_delete, name='brigada_delete'),
     # Convenios
-    path('convenios/', views.convenio_index, name='convenios'),
+#     path('convenios/', views.convenio_index, name = 'convenios'),
+    url(r'^convenios/$', views.convenio_index, name='convenios'),
     path('convenios/nueva', views.convenio_new, name='convenio_new'),
     path('convenios/<int:convenio_id>',
          views.convenio_view, name='convenio_view'),
     path('convenios/edit/<int:convenio_id>',
          views.convenio_edit, name='convenio_edit'),
     path('convenios/delete/<int:convenio_id>',
-         views.convenio_delete, name = 'convenio_delete'),
+         views.convenio_delete, name='convenio_delete'),
     # Subir Excel
     path('convenios/uploadexcel', views.upload_excel, name='upload_excel'),
 
@@ -105,10 +107,11 @@ urlpatterns = [
     path('mes_en_cursos/delete/<int:mes_en_curso_id>',
          views.mes_en_curso_delete, name='mes_en_curso_delete'),
     # QSE
-    path('qses/', views.qse_index, name='qses'),
+#     path('qses/', views.qse_index, name='qses'),
+    url(r'^qses/$', views.qse_index, name='qses'),
     path('qses/nueva', views.qse_new, name='qse_new'),
     path('qses/<int:qse_id>', views.qse_view, name='qse_view'),
     path('qses/edit/<int:qse_id>', views.qse_edit, name='qse_edit'),
     path('qses/delete/<int:qse_id>', views.qse_delete, name='qse_delete'),
-    
+
 ]

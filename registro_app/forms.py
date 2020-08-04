@@ -2,6 +2,7 @@ from django.forms import ModelForm, TextInput, Textarea, DateInput, CheckboxInpu
 from .models import Persona, Convenio, Especialidad, Brigada, QSE, Actividad, Zona, Objeto, Obra, MesEnCurso
 from django import forms
 
+
 class PersonaForm(ModelForm):
     class Meta:
         model = Persona
@@ -120,7 +121,7 @@ class MesEnCursoForm(ModelForm):
         widgets = {
             'mes': Select(attrs={'class': 'form-control'}),
             'anno': TextInput(attrs={'class': 'form-control'}),
-            'objetos': Select(attrs={'class': 'form-control'})
+            'obra': Select(attrs={'class': 'form-control'})
         }
 
 
@@ -172,9 +173,20 @@ class QSEForm(ModelForm):
         elif self.instance.pk:
             self.fields['objeto'].queryset = Objeto.objects.filter(
                 zona=self.instance.zona.pk).order_by('nombre')
-            # self.instance.zona.objeto_set.order_by('nombre')
 
-#Subir un excel
+
+# Subir un excel
+
+
+def validate_file_ext(value):
+    import os
+    from django.core.exceptions import ValidationError
+    ext = os.path.splitext(value.name)[1]
+    valid_ext = ['.xlsx']
+    if not ext.lower() in valid_ext:
+        raise ValidationError('Fichero no soportado')
+
+
 class UploadExcelForm(forms.Form):
 
-    archivo = forms.FileField()
+    archivo = forms.FileField(validators=[validate_file_ext])

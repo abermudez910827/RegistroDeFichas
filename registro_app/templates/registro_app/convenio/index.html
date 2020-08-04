@@ -6,6 +6,9 @@
       <h2 class="heading mb-4">Convenios</h2>
     </div>
     <div class="col-md-12 text-right">
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filtro">
+        Filtrar
+      </button>
       <a class="btn btn-primary" href="{% url 'upload_excel' %}">Importar excel</a>
 
       <a class="btn btn-success" href="{% url 'convenio_new' %}">Nuevo</a>
@@ -36,15 +39,15 @@
         {% endfor %}
       </tbody>
     </table>
-    {% if qses.paginator.num_pages > 1 %}
+    {% if convenios.paginator.num_pages > 1 %}
     <nav aria-label="Page navigation ">
       <ul class="pagination justify-content-center">
-        {% if qses.has_previous %}
+        {% if convenios.has_previous %}
         <li class="page-item">
           <a class="page-link" href="?page=1" tabindex="-1">Primera</a>
         </li>
         <li class="page-item">
-          <a class="page-link" href="?page={{ qses.previous_page_number }}" tabindex="-1">Anterior</a>
+          <a class="page-link" href="?page={{ convenios.previous_page_number }}" tabindex="-1">Anterior</a>
         </li>
         {%else%}
         <li class="page-item disabled">
@@ -55,13 +58,13 @@
         </li>
         {% endif %}
     
-        {% if qses.number|add:'-4' > 1 %}
+        {% if convenios.number|add:'-4' > 1 %}
         <li class="page-item">
-          <a class="page-link" href="?page={{qses.number|add:'-5'}}">&hellip;</a>
+          <a class="page-link" href="?page={{convenios.number|add:'-5'}}">&hellip;</a>
         </li>
         {% endif%}
-        {% for page in qses.paginator.page_range %}
-        {% if page == qses.number %}
+        {% for page in convenios.paginator.page_range %}
+        {% if page == convenios.number %}
         <li class="page-item active" aria-current="page">
           <span class="page-link">
             {{page}}
@@ -69,26 +72,26 @@
           </span>
         </li>
     
-        {% elif page > qses.number|add:'-5' and page < qses.number|add:'5' %}
+        {% elif page > convenios.number|add:'-5' and page < convenios.number|add:'5' %}
         <li class="page-item">
           <a class="page-link" href="?page={{page}}">{{page}}</a>
         </li>
         {% endif %} {% endfor%}
     
     
-        {% if qses.paginator.num_pages > qses.number|add:'4'  %}
+        {% if convenios.paginator.num_pages > convenios.number|add:'4'  %}
         <li class="page-item">
-          <a class="page-link" href="?page={{qses.number|add:'5'}}">&hellip;</a>
+          <a class="page-link" href="?page={{convenios.number|add:'5'}}">&hellip;</a>
         </li>
         {% endif%}
     
     
-        {% if qses.has_next %}
+        {% if convenios.has_next %}
         <li class="page-item">
-          <a class="page-link" href="?page={{ qses.next_page_number }}">Next</a>
+          <a class="page-link" href="?page={{ convenios.next_page_number }}">Next</a>
         </li>
         <li class="page-item">
-          <a class="page-link" href="?page={{ qses.paginator.num_pages }}">Last</a>
+          <a class="page-link" href="?page={{ convenios.paginator.num_pages }}">Last</a>
         </li>
         {%else%}
         <li class="page-item disabled">
@@ -102,5 +105,47 @@
     </nav>
     {% endif %}
   </div>
+
+{%load widget_tweaks %}
+
+  <div id="filtro" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="Filtro" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <form method="GET">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="Filtro">Filtrar tabla</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+  
+          <div class="modal-body">
+  
+            {% csrf_token %} 
+
+            {% for field in convenios_filter.form %}
+            <div class="row">
+              <div class="col-md-12 form-group">
+                {{field.label_tag}}
+                {% render_field field class="form-control" %}
+                {% for error in field.errors%}
+                <i class="text-danger fa fa-info">
+                  <strong>{{error|escape}}</strong>
+                </i>
+                {% endfor %}
+              </div>
+            </div>
+            
+            {% endfor %}
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Aplicar</button>
+          </div>
+      </form>
+    </div>
+  </div>
+
 </div>
 {% endblock %}

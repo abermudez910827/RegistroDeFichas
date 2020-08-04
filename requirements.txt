@@ -1,2 +1,4 @@
 django==3.0.7
-djangorestframework==3.11.0
+boostrap4
+django_filter==2.3.0
+django_widget_tweaks==1.4.8
