@@ -1,4 +1,5 @@
 {% extends 'registro_app/base.html' %} {% block content %}
+{% load widget_tweaks %}
 
 <div class="container">
   <div class="row justify-content-center mt-5 mb-2 element-animate">
@@ -10,10 +11,13 @@
     <div class="col-md-6 mb-5 text-center order-2">
       <h1></h1>
       {% if success %}
-      <h1><i class="fa fa-check-circle text-success"></i>Importados los datos con exito</h1>
+      <h1>
+        <i class="fa fa-check-circle text-success"></i>Importados los datos con
+        exito
+      </h1>
       <a href="{% url 'convenios' %}" class="btn btn-success">Regresar</a>
       {% elif error %}
-      <h1 ><i class="fa fa-close text-danger"></i>Ocurrio un error</h1>
+      <h1><i class="fa fa-close text-danger"></i>Ocurrio un error</h1>
       <h5>Intente subir un archivo excel válido</h5>
       <a href="{% url 'upload_excel' %}" class="btn btn-danger"
         >Volver a intentar</a
@@ -23,8 +27,9 @@
         {% csrf_token %} {% for field in form %}
         <div class="row">
           <div class="col-md-12 form-group">
-            <label for="{{ field.id_for_label }}">Archivo:</label>
-            {{field}} {% for error in field.errors%}
+          {{field.label_tag}}
+          {% render_field field class="form-control" %}
+           {% for error in field.errors%}
             <i class="text-danger fa fa-info">
               <strong>{{error|escape}}</strong>
             </i>

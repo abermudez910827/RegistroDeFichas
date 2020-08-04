@@ -35,12 +35,13 @@ class EspecialidadForm(ModelForm):
 class ConvenioForm(ModelForm):
     class Meta:
         model = Convenio
-        fields = ['codigo', 'descripcion']
+        fields = ['obra', 'codigo', 'descripcion']
         labels = {
             'codigo': ('Código'),
             'descripcion': ('Descripción'),
         }
         widgets = {
+            'obra': Select(attrs={'class': 'form-control'}),
             'codigo': TextInput(attrs={'class': 'form-control'}),
             'descripcion': Textarea(attrs={'class': 'form-control'})
 
@@ -188,5 +189,6 @@ def validate_file_ext(value):
 
 
 class UploadExcelForm(forms.Form):
-
+    obra = forms.ChoiceField(choices=[
+        (obra.pk, obra) for obra in Obra.objects.all()])
     archivo = forms.FileField(validators=[validate_file_ext])

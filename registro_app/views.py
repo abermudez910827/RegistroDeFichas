@@ -570,7 +570,7 @@ def qse_delete(request, qse_id):
 
 
 @login_required(login_url='/')
-def handle_uploaded_file(request, f):
+def handle_uploaded_file(request, f, obra):
     with open('name.xlsx', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
@@ -580,9 +580,10 @@ def handle_uploaded_file(request, f):
             if sheet_ranges['A1'].value == 'codigoConvenio' and sheet_ranges['B1'].value == 'descripcionConvenio':
                 pos = 2
                 while(sheet_ranges['A'+str(pos)].value != None):
-                    convenio_temp = Convenio(
-                        codigo=sheet_ranges['A' + str(pos)].value,
-                        descripcion=sheet_ranges['B'+str(pos)].value)
+                    convenio_temp = Convenio(obra=Obra.objects.get(pk=obra),
+                                             codigo=sheet_ranges['A' +
+                                                                 str(pos)].value,
+                                             descripcion=sheet_ranges['B'+str(pos)].value)
                     try:
                         convenio_temp.save()
                     except IntegrityError:
@@ -605,7 +606,7 @@ def upload_excel(request):
     else:
         form = UploadExcelForm(request.POST, request.FILES)
         if form.is_valid():
-            if handle_uploaded_file(request, request.FILES['archivo']):
+            if handle_uploaded_file(request, request.FILES['archivo'], request.POST['obra']):
                 return render(request, 'registro_app/convenio/uploadExcel.html', {'success': True})
 
         return render(request, 'registro_app/convenio/uploadExcel.html', {'error': True})

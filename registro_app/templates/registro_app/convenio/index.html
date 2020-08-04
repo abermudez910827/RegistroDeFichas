@@ -18,6 +18,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
+          <th scope="col">Obra</th>
           <th scope="col">Código</th>
           <th scope="col">Descripción</th>
         </tr>
@@ -27,6 +28,9 @@
 
         <tr>
           
+          <td>
+            <a href="{% url 'obra_view' convenio.obra.id %}">{{convenio.obra.nombre}}</a>
+          </td>
           <td>
             <a href="{% url 'convenio_view' convenio.id %}"
               >{{convenio.codigo}}</a
