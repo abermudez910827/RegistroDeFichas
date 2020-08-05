@@ -79,11 +79,11 @@ class ObraForm(ModelForm):
 class BrigadaForm(ModelForm):
     class Meta:
         model = Brigada
-        fields = ['nombre', 'jefe', 'integrantes']
+        fields = ['nombre', 'jefe']
         labels = {
             'nombre': ('Nombre'),
             'jefe': ('Jefe'),
-            'integrantes': ('Integrantes'),
+            # 'integrantes': ('Integrantes'),
         }
         widgets = {
             'nombre': TextInput(attrs={'class': 'form-control'}),
@@ -149,7 +149,7 @@ class QSEForm(ModelForm):
             'nro': TextInput(attrs={'class': 'form-control'}),
             'especialidad': Select(attrs={'class': 'form-control'}),
             'convenio': Select(attrs={'class': 'form-control'}),
-            'actividad': Select(attrs={'class': 'form-control'}),
+            'actividad': Textarea(attrs={'class': 'form-control'}),
             'brigada': Select(attrs={'class': 'form-control'}),
             'zona': Select(attrs={'class': 'form-control'}),
             'objeto': Select(attrs={'class': 'form-control'}),
@@ -190,5 +190,5 @@ def validate_file_ext(value):
 
 class UploadExcelForm(forms.Form):
     obra = forms.ChoiceField(choices=[
-        (obra.pk, obra) for obra in Obra.objects.all()])
+        (obra.id, obra) for obra in Obra.objects.all()])
     archivo = forms.FileField(validators=[validate_file_ext])

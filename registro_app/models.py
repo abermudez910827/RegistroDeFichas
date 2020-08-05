@@ -11,8 +11,8 @@ class Persona(models.Model):
 class Brigada(models.Model):
     nombre = models.CharField(max_length=255)
     jefe = models.ForeignKey(Persona, on_delete=models.CASCADE)
-    integrantes = models.ManyToManyField(
-        Persona, verbose_name='lista de integrantes', related_name='integrantes')
+    # integrantes = models.ManyToManyField(
+    #     Persona, verbose_name='lista de integrantes', related_name='integrantes')
 
     def __str__(self):
         return self.nombre
@@ -99,7 +99,7 @@ class QSE(models.Model):
     # convenio
     convenio = models.ForeignKey(Convenio, on_delete=models.CASCADE)
     # actividad
-    actividad = models.ForeignKey(Actividad, on_delete=models.CASCADE)
+    actividad = models.TextField(blank=True)
     # brigada
     brigada = models.ForeignKey(Brigada, on_delete=models.CASCADE)
     # zona

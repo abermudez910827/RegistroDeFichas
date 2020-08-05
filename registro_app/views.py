@@ -574,28 +574,37 @@ def handle_uploaded_file(request, f, obra):
     with open('name.xlsx', 'wb+') as destination:
         for chunk in f.chunks():
             destination.write(chunk)
-        try:
-            wb = load_workbook(filename='name.xlsx')
-            sheet_ranges = wb['Hoja1']
-            if sheet_ranges['A1'].value == 'codigoConvenio' and sheet_ranges['B1'].value == 'descripcionConvenio':
-                pos = 2
-                while(sheet_ranges['A'+str(pos)].value != None):
-                    convenio_temp = Convenio(obra=Obra.objects.get(pk=obra),
-                                             codigo=sheet_ranges['A' +
-                                                                 str(pos)].value,
-                                             descripcion=sheet_ranges['B'+str(pos)].value)
-                    try:
-                        convenio_temp.save()
-                    except IntegrityError:
-                        pass
-                    pos += 1
+        # try:
+        wb = load_workbook(filename='name.xlsx')
+        sheet_ranges = wb['Hoja1']
+        if sheet_ranges['A2'].value == 'codigoConvenio' and sheet_ranges['B2'].value == 'descripcionConvenio':
+            pos = 3
+            obra = Obra.objects.get(pk=obra)
+            convenios_list=[]
+            while (sheet_ranges['A' + str(pos)].value != None):
+                convenios_list.append(Convenio(obra=obra,
+                                            codigo=sheet_ranges['A' +
+                                                                str(pos)].value,
+                                            descripcion=sheet_ranges['B'+str(pos)].value))
+                # convenio_temp = Convenio(obra=obra,
+                #                          codigo=sheet_ranges['A' +
+                #                                              str(pos)].value,
+                #                          descripcion=sheet_ranges['B'+str(pos)].value)
+                pos += 1
 
-                return True
-            else:
-                return False
+            convenios=Convenio.objects.bulk_create(convenios_list,ignore_conflicts=True)
+            # try:
 
-        except:
+            #     convenio_temp.save()
+            # except IntegrityError:
+            #     pass
+
+            return True
+        else:
             return False
+
+        # except:
+        #     return False
 
 
 @login_required(login_url='/')
