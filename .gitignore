@@ -128,6 +128,9 @@ dmypy.json
 ### Python Patch ###
 .venv/
 
+### Python Secrets ###
+secrets.py
+
 ### Vagrant ###
 # General
 .vagrant/
