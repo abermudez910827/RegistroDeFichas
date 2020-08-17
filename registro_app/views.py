@@ -580,19 +580,20 @@ def handle_uploaded_file(request, f, obra):
         if sheet_ranges['A2'].value == 'codigoConvenio' and sheet_ranges['B2'].value == 'descripcionConvenio':
             pos = 3
             obra = Obra.objects.get(pk=obra)
-            convenios_list=[]
+            convenios_list = []
             while (sheet_ranges['A' + str(pos)].value != None):
                 convenios_list.append(Convenio(obra=obra,
-                                            codigo=sheet_ranges['A' +
-                                                                str(pos)].value,
-                                            descripcion=sheet_ranges['B'+str(pos)].value))
+                                               codigo=sheet_ranges['A' +
+                                                                   str(pos)].value,
+                                               descripcion=sheet_ranges['B'+str(pos)].value))
                 # convenio_temp = Convenio(obra=obra,
                 #                          codigo=sheet_ranges['A' +
                 #                                              str(pos)].value,
                 #                          descripcion=sheet_ranges['B'+str(pos)].value)
                 pos += 1
 
-            convenios=Convenio.objects.bulk_create(convenios_list,ignore_conflicts=True)
+            convenios = Convenio.objects.bulk_create(
+                convenios_list, ignore_conflicts=True)
             # try:
 
             #     convenio_temp.save()
