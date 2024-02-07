@@ -1,4 +1,4 @@
-django==3.1.13
+django==3.2.24
 django-bootstrap4==2.2.0
 django_filter==2.3.0
 django_widget_tweaks==1.4.8
